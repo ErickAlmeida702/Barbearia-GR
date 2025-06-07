@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agendamento - GR Barbearia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            margin-top: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            width: 120px;
+            height: auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        label {
+            display: block;
+            margin: 12px 0 4px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #111;
+            color: white;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
+
+        .preco {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .success {
+            color: green;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="GR Icon.JPG" alt="GR Barbearia" />
+        </div>
+        <h2>Agende seu horário</h2>
+
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" required />
+
+        <label for="telefone">Telefone</label>
+        <input type="tel" id="telefone" required />
+
+        <label for="servico">Serviço</label>
+        <select id="servico"></select>
+
+        <label for="profissional">Profissional</label>
+        <select id="profissional"></select>
+
+        <label for="data">Data</label>
+        <input type="date" id="data" />
+
+        <label for="horario">Horário Disponível</label>
+        <select id="horario"></select>
+
+        <div class="preco" id="precoLabel">Preço: R$ 0,00</div>
+
+        <button onclick="enviarAgendamento()">Confirmar Agendamento</button>
+        <div class="success hidden" id="successMsg">Agendamento confirmado com sucesso! ✅</div>
+    </div>
+
+    <script>
+        const apiURL = "SEU_LINK_DO_SCRIPT_WEB_APP"; // substitua pelo seu link
+
+        let servicos = [];
+
+        async function carregarEnums() {
+            const res = await fetch(apiURL + "?action=getEnums");
+            const data = await res.json();
+
+            const servicoSelect = document.getElementById("servico");
+            servicoSelect.innerHTML = "";
+            servicos = data.servicos;
+
+            data.servicos.forEach(s => {
+                const opt = document.createElement("option");
+                opt.value = s.nome;
+                opt.textContent = `${s.nome} - R$ ${s.preco}`;
+                servicoSelect.appendChild(opt);
+            });
+
+            const profissionalSelect = document.getElementById("profissional");
+            profissionalSelect.innerHTML = "";
+            data.profissionais.forEach(p => {
+                const opt = document.createElement("option");
+                opt.value = p;
+                opt.textContent = p;
+                profissionalSelect.appendChild(opt);
+            });
+
+            atualizarPreco();
+        }
+
+        async function carregarHorarios() {
+            const data = document.getElementById("data").value;
+            const profissional = document.getElementById("profissional").value;
+            if (!data || !profissional) return;
+
+            const res = await fetch(`${apiURL}?action=getHorarios&data=${data}&profissional=${profissional}`);
+            const horarios = await res.json();
+
+            const horarioSelect = document.getElementById("horario");
+            horarioSelect.innerHTML = "";
+            horarios.forEach(h => {
+                const opt = document.createElement("option");
+                opt.value = h;
+                opt.textContent = h;
+                horarioSelect.appendChild(opt);
+            });
+        }
+
+        function atualizarPreco() {
+            const servicoNome = document.getElementById("servico").value;
+            const precoLabel = document.getElementById("precoLabel");
+
+            const servico = servicos.find(s => s.nome === servicoNome);
+            precoLabel.textContent = `Preço: R$ ${servico ? servico.preco.toFixed(2) : "0,00"}`;
+        }
+
+        async function enviarAgendamento() {
+            const nome = document.getElementById("nome").value;
+            const telefone = document.getElementById("telefone").value;
+            const data = document.getElementById("data").value;
+            const hora = document.getElementById("horario").value;
+            const profissional = document.getElementById("profissional").value;
+            const servicoNome = document.getElementById("servico").value;
+            const servico = servicos.find(s => s.nome === servicoNome);
+            const preco = servico.preco;
+
+            if (!nome || !telefone || !data || !hora || !profissional || !servicoNome) {
+                alert("Preencha todos os campos!");
+                return;
+            }
+
+            const agendamento = { nome, telefone, data, hora, profissional, servico: servicoNome, preco };
+
+            await fetch(apiURL, {
+                method: "POST",
+                body: JSON.stringify(agendamento),
+                headers: { "Content-Type": "application/json" }
+            });
+
+            document.getElementById("successMsg").classList.remove("hidden");
+        }
+
+        // Eventos
+        document.getElementById("servico").addEventListener("change", atualizarPreco);
+        document.getElementById("data").addEventListener("change", carregarHorarios);
+        document.getElementById("profissional").addEventListener("change", carregarHorarios);
+
+        carregarEnums();
+    </script>
+</body>
+
+</html>
