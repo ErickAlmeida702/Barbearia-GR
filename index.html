@@ -88,6 +88,25 @@
         .hidden {
             display: none;
         }
+
+        .icons-container {
+            display: flex;
+            justify-content: center; /* centraliza horizontalmente */
+            gap: 20px; /* espaço entre os ícones */
+            margin-top: 20px; /* distância do resto do conteúdo */
+        }
+
+        .icons-container a img {
+            width: 40px; /* tamanho dos ícones, ajuste se quiser */
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .icons-container a img:hover {
+            transform: scale(1.1);
+        }
+
     </style>
 </head>
 
@@ -123,8 +142,27 @@
         ✅ Agendamento confirmado com sucesso!<br>
         Este aplicativo está em fase de testes. Em breve você receberá a confirmação oficial.
     </div>
-    <p>Endereço : Praça Adolfo Cavalcanti, 29</p>
-    <p>Número para contato : (11) 98455-4233</p>
+
+    <p></p>
+
+    <div class="icons-container">
+
+        <a href="https://api.whatsapp.com/send?phone=5511984554233&text=Ol%C3%A1!%20Estou%20entrando%20em%20contato%20pelo%20site%20da%20GR%20Barbearia%20para%20agendar%20um%20hor%C3%A1rio.%20Pode%20me%20ajudar%2C%20por%20favor%3F%20%0A%F0%9F%98%80"
+           target="_blank" rel="noopener noreferrer">
+            <img src="icons/whatsapp.png" alt="GR Barbearia - Whatsapp">
+        </a>
+
+        <a href="https://www.instagram.com/gr.barbearia0?igsh=MTZkZmFmOGZ2ZGNqeg==" target="_blank"
+           rel="noopener noreferrer">
+            <img src="icons/instagram.png" alt="GR Barbearia - Instagram">
+        </a>
+
+        <a href="https://maps.app.goo.gl/J9tgG2D3vbvfz9ZN6" target="_blank" rel="noopener noreferrer">
+            <img src="icons/maps.png" alt="GR Barbearia - Maps">
+        </a>
+
+    </div>
+
 </div>
 
 <script>
