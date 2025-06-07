@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f06b55bd-bd17-4aef-9e40-45a8b1e4fd1b" name="Changes" comment="refactor para o GitHubPages achar o index">
+    <list default="true" id="f06b55bd-bd17-4aef-9e40-45a8b1e4fd1b" name="Changes" comment="Adicionando regras de validação de campos">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
@@ -68,7 +68,7 @@
       <option name="presentableId" value="Default" />
       <updated>1749326023018</updated>
       <workItem from="1749326025341" duration="44000" />
-      <workItem from="1749327040167" duration="1473000" />
+      <workItem from="1749327040167" duration="2202000" />
     </task>
     <task id="LOCAL-00001" summary="SUbindo para github pages">
       <option name="closed" value="true" />
@@ -86,7 +86,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749327948943</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Adicionando regras de validação de campos">
+      <option name="closed" value="true" />
+      <created>1749328535521</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1749328535521</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -95,6 +103,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="SUbindo para github pages" />
     <MESSAGE value="refactor para o GitHubPages achar o index" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor para o GitHubPages achar o index" />
+    <MESSAGE value="Adicionando regras de validação de campos" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adicionando regras de validação de campos" />
   </component>
 </project>
