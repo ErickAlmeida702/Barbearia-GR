@@ -273,9 +273,41 @@
             return;
         }
 
-        console.log({nome, telefone, data, hora, profissional, servico: servicoNome, preco});
+        // Criar e enviar o formulário para o FormSubmit
+        const form = document.createElement("form");
+        form.action = "https://formsubmit.co/638fe92819765da14a7899e86124b653"; // Coloque seu e-mail aqui
+        form.method = "POST";
+        form.style.display = "none";
 
+        const campos = {
+            Nome: nome,
+            Telefone: telefone,
+            Email: email,
+            Data: data,
+            Horário: hora,
+            Profissional: profissional,
+            Serviço: servicoNome,
+            Preço: `R$ ${preco.toFixed(2).replace(".", ",")}`
+        };
+
+        for (const chave in campos) {
+            const input = document.createElement("input");
+            input.value = `Novo agendamento com ${profissional} em ${data} às ${hora}`;
+            input.type = "hidden";
+            input.name = chave;
+            input.value = campos[chave];
+            form.appendChild(input);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+
+        // Mostrar mensagem de sucesso (ou redirecionar, se preferir)
         document.getElementById("successMsg").classList.remove("hidden");
+    }
+
+    function validarEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
     function configurarData() {
