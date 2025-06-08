@@ -123,6 +123,9 @@
     <label for="telefone">Telefone</label>
     <input type="tel" id="telefone" required oninput="formatarTelefone(this)" maxlength="15"/>
 
+    <label for="email">E-mail</label>
+    <input type="text" id="email" required/>
+
     <label for="servico">Serviço</label>
     <select id="servico"></select>
 
@@ -251,6 +254,13 @@
     function enviarAgendamento() {
         const nome = document.getElementById("nome").value;
         const telefone = document.getElementById("telefone").value;
+        const email = document.getElementById("email").value;
+
+        if (!validarEmail(email)) {
+            alert("Por favor, insira um e-mail válido.");
+            return;
+        }
+
         const data = document.getElementById("data").value;
         const hora = document.getElementById("horario").value;
         const profissional = document.getElementById("profissional").value;
@@ -258,7 +268,7 @@
         const servico = servicos.find(s => s.nome === servicoNome);
         const preco = servico?.preco || 0;
 
-        if (!nome || !telefone || !data || !hora || !profissional || !servicoNome) {
+        if (!nome || !telefone || !data || !hora || !profissional || !servicoNome || !email) {
             alert("Preencha todos os campos!");
             return;
         }
@@ -286,6 +296,12 @@
 
     configurarData();
     carregarEnums();
+
+    function validarEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+
 </script>
 </body>
 
