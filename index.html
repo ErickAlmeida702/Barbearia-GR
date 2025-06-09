@@ -152,11 +152,7 @@
     </div>
 
     <button onclick="enviarAgendamento()">Confirmar Agendamento</button>
-    <div class="success hidden" id="successMsg">
-        ✅ Agendamento confirmado com sucesso!<br/>
-        Este aplicativo está em fase de testes. Em breve você receberá a confirmação oficial.
-    </div>
-
+    <div class="success hidden" id="successMsg"></div>
     <div class="icons-container">
         <a href="https://api.whatsapp.com/send?phone=5511984554233" target="_blank">
             <img src="icons/whatsapp.png" alt="Whatsapp"/>
@@ -315,8 +311,6 @@
     }
 
     async function enviarAgendamento() {
-        document.getElementById("loading").classList.remove("hidden"); // mostra loading
-
         const nome = document.getElementById("nome").value;
         const telefone = document.getElementById("telefone").value;
         const email = document.getElementById("email").value;
@@ -332,6 +326,12 @@
             return;
         }
 
+        // Mostrar loading
+        const botao = document.querySelector("button");
+        const botaoOriginal = botao.innerHTML;
+        botao.disabled = true;
+        botao.innerHTML = "Enviando... ⏳";
+
         const agendamento = {
             data,
             hora,
@@ -342,87 +342,78 @@
             preco
         };
 
-        await fetch(`${API_BASE}/${ID_AGENDAMENTOS}/?user_field_names=true`, {
-            method: "POST",
-            headers: {
-                Authorization: `Token ${TOKEN}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(agendamento)
-        });
+        try {
+            // Salvar agendamento no Baserow
+            await fetch(`${API_BASE}/${ID_AGENDAMENTOS}/?user_field_names=true`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Token ${TOKEN}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(agendamento)
+            });
 
-        // Remover horário usado
-        const res = await fetch(`${API_BASE}/${ID_HORARIOS}/?user_field_names=true`, {
-            headers: {Authorization: `Token ${TOKEN}`}
-        });
-        const json = await res.json();
-
-        // Encontrar o id do horário que foi reservado
-        const horarioReservado = json.results.find(
-            h =>
-                h.data === data &&
-                h.profissional === profissional &&
-                h.hora === hora
-        );
-
-        if (horarioReservado) {
-            await fetch(`${API_BASE}/${ID_HORARIOS}/${horarioReservado.id}/?user_field_names=true`, {
-                method: "DELETE",
+            // Remover horário reservado
+            const res = await fetch(`${API_BASE}/${ID_HORARIOS}/?user_field_names=true`, {
                 headers: {Authorization: `Token ${TOKEN}`}
             });
+            const json = await res.json();
+
+            const horarioReservado = json.results.find(
+                h =>
+                    h.data === data &&
+                    h.profissional === profissional &&
+                    h.hora === hora
+            );
+
+            if (horarioReservado) {
+                await fetch(`${API_BASE}/${ID_HORARIOS}/${horarioReservado.id}/?user_field_names=true`, {
+                    method: "DELETE",
+                    headers: {Authorization: `Token ${TOKEN}`}
+                });
+            }
+
+            // Enviar e-mail com dados via Formsubmit
+            await fetch("https://formsubmit.co/ajax/erickalmeida702@gmail.com", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Nome: nome,
+                    Telefone: telefone,
+                    Email: email,
+                    Profissional: profissional,
+                    Serviço: servico,
+                    Data: data,
+                    Hora: hora,
+                    Preço: `R$ ${preco}`
+                })
+            });
+
+            // Mostrar mensagem de sucesso
+            const msg = `✅ Agendamento para <strong>${nome}</strong> confirmado com sucesso para <strong>${hora}</strong>!<br/>` +
+                `Você receberá a confirmação oficial em breve.`;
+            const successDiv = document.getElementById("successMsg");
+            successDiv.innerHTML = msg;
+            successDiv.classList.remove("hidden");
+            // Limpar formulário
+            document.getElementById("nome").value = "";
+            document.getElementById("telefone").value = "";
+            document.getElementById("email").value = "";
+
+            // Atualizar datas e horários
+            await carregarDatasDisponiveis();
+
+        } catch (error) {
+            console.error("Erro ao agendar:", error);
+            alert("Erro ao realizar agendamento. Tente novamente.");
+        } finally {
+            botao.disabled = false;
+            botao.innerHTML = botaoOriginal;
         }
-        // Enviar e-mail via Formsubmit
-        const form = document.createElement("form");
-        form.action = "https://formsubmit.co/erickalmeida702@gmail.com";
-        form.method = "POST";
-        form.style.display = "none";
-
-        const fields = {
-            Nome: nome,
-            Telefone: telefone,
-            Email: email,
-            Profissional: profissional,
-            Serviço: servico,
-            Data: data,
-            Horário: hora,
-            Preço: `R$ ${preco}`
-        };
-
-        for (const key in fields) {
-            const input = document.createElement("input");
-            input.type = "hidden";
-            input.name = key;
-            input.value = fields[key];
-            form.appendChild(input);
-        }
-
-        const redirectInput = document.createElement("input");
-        redirectInput.type = "hidden";
-        redirectInput.name = "_next";
-        redirectInput.value = window.location.href; // ou outro link
-        form.appendChild(redirectInput);
-
-        const captchaInput = document.createElement("input");
-        captchaInput.type = "hidden";
-        captchaInput.name = "_captcha";
-        captchaInput.value = "false";
-        form.appendChild(captchaInput);
-
-        document.body.appendChild(form);
-        form.submit();
-
-
-        // Mostrar mensagem sucesso
-        document.getElementById("successMsg").classList.remove("hidden");
-
-        // Resetar form
-        document.getElementById("nome").value = "";
-        document.getElementById("telefone").value = "";
-        document.getElementById("email").value = "";
-        // Depois que deletou o horário, recarrega as datas e horários atualizados
-        await carregarDatasDisponiveis();
-        document.getElementById("loading").classList.add("hidden"); // esconde loading
     }
+
 
     // Atualiza os horários ao mudar profissional
     document.getElementById("profissional").addEventListener("change", carregarHorarios);
