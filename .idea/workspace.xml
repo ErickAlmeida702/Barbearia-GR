@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f06b55bd-bd17-4aef-9e40-45a8b1e4fd1b" name="Changes" comment="SUbindo MOCK">
+    <list default="true" id="f06b55bd-bd17-4aef-9e40-45a8b1e4fd1b" name="Changes" comment="Subindo alterações combinadas para produção">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
@@ -69,7 +69,7 @@
       <updated>1749326023018</updated>
       <workItem from="1749326025341" duration="44000" />
       <workItem from="1749327040167" duration="15222000" />
-      <workItem from="1749492899516" duration="1634000" />
+      <workItem from="1749492899516" duration="3112000" />
     </task>
     <task id="LOCAL-00001" summary="SUbindo para github pages">
       <option name="closed" value="true" />
@@ -167,7 +167,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749494653308</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Subindo alterações combinadas para produção">
+      <option name="closed" value="true" />
+      <created>1749495012206</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1749495012206</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -189,6 +197,7 @@
     <MESSAGE value="refactor para o GitHubPages achar o index" />
     <MESSAGE value="Adicionando regras de validação de campos" />
     <MESSAGE value="SUbindo MOCK" />
-    <option name="LAST_COMMIT_MESSAGE" value="SUbindo MOCK" />
+    <MESSAGE value="Subindo alterações combinadas para produção" />
+    <option name="LAST_COMMIT_MESSAGE" value="Subindo alterações combinadas para produção" />
   </component>
 </project>

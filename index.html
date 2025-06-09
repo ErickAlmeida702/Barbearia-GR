@@ -380,6 +380,7 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    _subject: `Novo agendamento - ${nome} às ${hora} com ${profissional}`,
                     Nome: nome,
                     Telefone: telefone,
                     Email: email,
@@ -392,8 +393,7 @@
             });
 
             // Mostrar mensagem de sucesso
-            const msg = `✅ Agendamento para <strong>${nome}</strong> confirmado com sucesso para <strong>${hora}</strong>!<br/>` +
-                `Você receberá a confirmação oficial em breve.`;
+            const msg = `✅ Agendamento para <strong>${nome}</strong> confirmado com sucesso para <strong>${hora}</strong>!<br/>`;
             const successDiv = document.getElementById("successMsg");
             successDiv.innerHTML = msg;
             successDiv.classList.remove("hidden");
