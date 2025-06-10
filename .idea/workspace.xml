@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f06b55bd-bd17-4aef-9e40-45a8b1e4fd1b" name="Changes" comment="Subindo alterações combinadas para produção">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +69,7 @@
       <workItem from="1749326025341" duration="44000" />
       <workItem from="1749327040167" duration="15222000" />
       <workItem from="1749492899516" duration="3728000" />
-      <workItem from="1749567762246" duration="66000" />
+      <workItem from="1749567762246" duration="1057000" />
     </task>
     <task id="LOCAL-00001" summary="SUbindo para github pages">
       <option name="closed" value="true" />
@@ -184,7 +183,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749496834460</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Subindo alterações combinadas para produção">
+      <option name="closed" value="true" />
+      <created>1749567841753</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1749567841753</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
